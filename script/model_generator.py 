@@ -1,0 +1,79 @@
+import tensorflow as tf
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from tensorflow.keras.optimizers import Adam
+
+# Set parameters for image size, batch size, number of classes, and epochs
+img_height, img_width = 224, 224
+batch_size = 32
+num_classes = 9
+epochs = 10
+
+# Data augmentation to improve model generalization
+train_datagen = ImageDataGenerator(
+    rescale=1./255,  # Normalize pixel values to [0, 1]
+    rotation_range=20,  # Random rotation of images
+    width_shift_range=0.2,  # Random width shifts
+    height_shift_range=0.2,  # Random height shifts
+    shear_range=0.2,  # Random shearing
+    zoom_range=0.2,  # Random zoom
+    horizontal_flip=True,  # Random horizontal flipping
+    validation_split=0.2  # Split 20% for validation
+)
+
+# Training data generator
+train_generator = train_datagen.flow_from_directory(
+    'data/train',  # Directory with training images
+    target_size=(img_height, img_width),  # Resize images
+    batch_size=batch_size,
+    class_mode='categorical',  # Multi-class classification
+    subset='training'  # Use the training subset
+)
+
+# Validation data generator
+validation_generator = train_datagen.flow_from_directory(
+    'data/train',  # Same directory, but for validation
+    target_size=(img_height, img_width),
+    batch_size=batch_size,
+    class_mode='categorical',
+    subset='validation'  # Use the validation subset
+)
+
+# Model architecture
+model = Sequential([
+    Conv2D(32, (3, 3), activation='relu', input_shape=(img_height, img_width, 3)),  # First convolutional layer
+    MaxPooling2D((2, 2)),  # First pooling layer
+    Conv2D(64, (3, 3), activation='relu'),  # Second convolutional layer
+    MaxPooling2D((2, 2)),  # Second pooling layer
+    Conv2D(128, (3, 3), activation='relu'),  # Third convolutional layer
+    MaxPooling2D((2, 2)),  # Third pooling layer
+    Flatten(),  # Flattening layer
+    Dense(128, activation='relu'),  # Fully connected layer
+    Dropout(0.5),  # Dropout for regularization
+    Dense(num_classes, activation='softmax')  # Output layer with softmax activation
+])
+
+# Compile the model with Adam optimizer and categorical crossentropy loss
+model.compile(
+    optimizer=Adam(),
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
+
+# Train the model
+model.fit(
+    train_generator,
+    epochs=epochs,
+    validation_data=validation_generator
+)
+
+# Convert the model to TensorFlow Lite format
+converter = tf.lite.TFLiteConverter.from_keras_model(model)
+tflite_model = converter.convert()
+
+# Save the TFLite model to a file
+with open('currency_classifier.tflite', 'wb') as f:
+    f.write(tflite_model)
+
+print("TFLite model saved as currency_classifier.tflite")

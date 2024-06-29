@@ -75,7 +75,8 @@
 │
 └── other project files...
 ```
-## Directory Structure
+## Setup and Installation
+
 - **1**: Clone the repository:
 ```plaintext
 git clone https://github.com/yourusername/visual-facilitator.git
@@ -92,6 +93,19 @@ flutter pub get
 ```plaintext
 flutter run
 ```
+## Screenshots:
+
+<img src="screenshots/1.jpeg" alt="Splash Screen" style="width:30%; height:auto;">
+
+<img src="/screenshots/2.jpeg" alt="Home Screen" style="width:30%; height:auto;">
+
+<img src="/screenshots/3.jpeg" alt="User permission Screen" style="width:30%; height:auto;">
+
+<img src="/screenshots/4.jpeg" alt="color detection Screen" style="width:30%; height:auto;">
+
+<img src="/screenshots/5.jpeg" alt="Getting address Screen" style="width:30%; height:auto;">
+
+<img src="/screenshots/6.jpeg" alt="Currency Detection Screen" style="width:30%; height:auto;">
 
 ## Contributing
 
