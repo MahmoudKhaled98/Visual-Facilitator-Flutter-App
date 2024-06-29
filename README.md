@@ -109,10 +109,10 @@ flutter run
 
 ## Contributing
 
-- **1**: Fork the repository.
-- **2**: Create a new branch.
-- **3**: Make your changes.
-- **4**: Submit a pull request.
+-  Fork the repository.
+-  Create a new branch.
+-  Make your changes.
+-  Submit a pull request.
 
 ## Contributing
-- For any questions or feedback, please contact mahmoud.khaled.hanfy@gmail.com.
+- For any questions or feedback, please contact mahmoud.khaled.hanafy@gmail.com.
